@@ -1,15 +1,15 @@
 import { pool } from "../database/db";
 
 export const updateTodo = async(data) =>{
-    const {id, item} = data
+    const {id, status} = data
 
     const query =`
             UPDATE todoList
-            SET item = $2
+            SET status = $2
             WHERE id = $1
             RETURN *
         `
-    const values = [id, item]
+    const values = [id, status]
 
     const res = await pool.query(query, values)
     return res.rows[0]
