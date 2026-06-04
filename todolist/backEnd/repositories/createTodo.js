@@ -3,7 +3,7 @@ import { pool } from "../database/db";
 export const create = async(data) =>{
     const {item, status} = data
 
-    query = `
+    const query = `
         INSERT INTO todoList
         VALUES( $1, $2)
         RETURN*;
