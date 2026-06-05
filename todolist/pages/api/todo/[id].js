@@ -1,9 +1,10 @@
-import { updateTodoHandler } from "@/backEnd/handler/updateTodoHandler";
-import { deleteTodoHandler } from "@/backEnd/handler/deleteTodoHandler";
+import  updateTodoHandler  from "@/backEnd/handler/updateTodoHandler";
+import  deleteTodoHandler  from "@/backEnd/handler/deleteTodoHandler";
 
 export default async function handler(req, res) {
     switch (req.method) {
         case "PATCH":
+            console.log("PATCHING...")
             return await updateTodoHandler(req, res);
 
         case "DELETE":

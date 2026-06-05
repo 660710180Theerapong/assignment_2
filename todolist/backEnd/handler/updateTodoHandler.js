@@ -1,6 +1,6 @@
 import { updateTodoUsecase } from "../usecase/updateTodoUsecase";
 
-export const updateTodoHandler = async(req, res) =>{
+export default async function updateTodoHandler (req, res) {
     if (req.method === "PATCH"){
         try{
             const todo = await updateTodoUsecase(req.body)

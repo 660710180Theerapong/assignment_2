@@ -1,4 +1,4 @@
-import { createTodoHandler } from "@/backEnd/handler/createTodoHandler";
+import createTodoHandler from "@/backEnd/handler/createTodoHandler";
 
 export default async function handler(req, res) {
     if (req.method === "POST") {

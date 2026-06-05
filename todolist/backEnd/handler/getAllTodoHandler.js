@@ -1,6 +1,6 @@
 import { getAllTodoUsecase } from "../usecase/getAllTodoUsecase";
 
-export const getAllTodoHandler = async(req, res) =>{
+export default async function getAllTodoHandler (req, res) {
     if (req.method === "GET"){
                 try{
                     const todo = await getAllTodoUsecase()
