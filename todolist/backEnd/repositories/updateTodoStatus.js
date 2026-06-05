@@ -7,7 +7,7 @@ export const updateTodo = async(data) =>{
             UPDATE todoList
             SET status = $2
             WHERE id = $1
-            RETURN *
+             RETURNING *;
         `
     const values = [id, status]
 

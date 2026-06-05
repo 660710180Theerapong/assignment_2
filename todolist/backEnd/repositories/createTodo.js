@@ -1,18 +1,19 @@
-import { pool } from "../database/db";
+import pool from "@/database/db";
 
-export const create = async(data) =>{
-    const {item, status} = data
+export const createTodo = async (data) => {
+    const { item, status } = data;
 
     const query = `
-        INSERT INTO todoList
-        VALUES( $1, $2)
-        RETURN*;
-    `
-    const values =[
+        INSERT INTO todoList (item, status)
+        VALUES ($1, $2)
+        RETURNING *;
+    `;
+
+    const values = [
         item,
-        status
+        Boolean(status)  
     ];
 
-    const res = await pool.query(query, values)
-    return res.rows[0]
-}
+    const res = await pool.query(query, values);
+    return res.rows[0];
+};

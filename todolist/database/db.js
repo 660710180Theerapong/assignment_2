@@ -1,11 +1,10 @@
-import { pool } from "qp"
+import { Pool } from "pg";
 
-const pool = new Pool ({
-    connectionString: process.env.DATA_URL,
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
     ssl: {
         rejectUnauthorized: false,
     },
+});
 
-})
-
-export default pool
+export default pool;
