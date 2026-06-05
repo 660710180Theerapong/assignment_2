@@ -1,9 +1,9 @@
-import { updateTodoStatusUsecase } from "../usecase/updateTodoStatusUsecase";
+import { updateTodoUsecase } from "../usecase/updateTodoUsecase";
 
-export const updateTodoStatusHandler = async(req, res) =>{
+export const updateTodoHandler = async(req, res) =>{
     if (req.method === "PUT"){
                     try{
-                        const todo = await updateTodoStatusUsecase(req.body)
+                        const todo = await updateTodoUsecase(req.body)
                         res.status(200).json({success: true, data: todo})
             
                     } catch(err) {
