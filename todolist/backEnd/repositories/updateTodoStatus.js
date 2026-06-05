@@ -1,6 +1,6 @@
 import pool from "@/database/db";
 
-export const updateTodo = async(data) =>{
+export const updateTodoStatus = async(data) =>{
     const {id, status} = data
 
     const query =`
