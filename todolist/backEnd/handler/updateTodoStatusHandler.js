@@ -1,6 +1,6 @@
 import { updateTodoStatusUsecase } from "../usecase/updateTodoStatusUsecase";
 
-export const updateTodoStatusHandler = async(req, res) =>{
+export default async function updateTodoStatusHandler (req, res) {
     if (req.method === "PUT"){
                     try{
                         const todo = await updateTodoStatusUsecase(req.body)

@@ -1,4 +1,4 @@
-import { getAllTodoHandler } from "@/backEnd/handler/getAllTodoHandler"
+import getAllTodoHandler from "@/backEnd/handler/getAllTodoHandler"
 export default async function handler(req, res) {
     if (req.method === "GET") {
         return await getAllTodoHandler(req, res);

@@ -1,6 +1,6 @@
 import { deleteTodoUsecase } from "../usecase/deleteTodoUsecase"
 
-export const deleteTodoHandler = async(req, res) =>{
+export default async function deleteTodoHandler (req, res) {
     if (req.method === "DELETE"){
             try{
                 const todo = await deleteTodoUsecase(req.body)
