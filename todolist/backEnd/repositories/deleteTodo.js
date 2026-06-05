@@ -1,9 +1,9 @@
-import { pool } from "../database/db";
+import pool from "@/database/db";
 
 export const deleteTodo = async (data) => {
     const {id} = data
     const query = `
-        DELETE FROM todoLite
+        DELETE FROM todoList
         WHERE id = $1
     `;
 
