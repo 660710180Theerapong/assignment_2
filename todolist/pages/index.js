@@ -79,30 +79,31 @@ export default function Home() {
               <title>Todolist</title>
           </Head>
 
-            <div >
+            <div>
                 <h2>กระดานความคิดเห็น</h2>
-                <button onClick={() => router.push("/AddTodo")}>
+                <button onClick={() => router.push("/AddTodo")} className={styles.add}>
                   Add Todo
                 </button>
                 {Todos.length === 0 ? (
-                    <p>ยังไม่มีความคิดเห็น</p>
+                    <h1>Todo List</h1>
                 ) : (
                     Todos.map((item) => (
-                        <div key={item.id}>
+                        <div key={item.id} className={styles.card}>
 
-                        <button onClick={() => handleUpdateStatus(item.id, item.status)}>
-                              {item.status ? "🟢" : "⚪"}
+                        <button onClick={() => handleUpdateStatus(item.id, item.status)} className={styles.status}>
+                              {item.status ? "✔️" : "🔘"}
                         </button>
-
+                        
+                        <hr />
                             <h3>{item.id}</h3>
                             <h3>{item.item}</h3>
                             <h3>{item.status}</h3>                          
-                            <hr />
-                            <button onClick={() => router.push(`/EditTodo?id=${item.id}`)}>
+                            
+                            <button onClick={() => router.push(`/EditTodo?id=${item.id}`)} className={styles.edit}>
                               Edit
                             </button>
 
-                            <button onClick={() => handleDelete(item.id)}>
+                            <button onClick={() => handleDelete(item.id)} className={styles.delete}>
                               Delete
                             </button>
                         </div>
