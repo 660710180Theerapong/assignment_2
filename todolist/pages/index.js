@@ -23,7 +23,7 @@ export default function Home() {
     fetchTodos()
   }, [])
   
-     const handleDelete = async (id) => {
+  const handleDelete = async (id) => {
     if (!confirm("คุณต้องการลบ Todo นี้ใช่ไหม?")) return;
 
     try {
@@ -40,12 +40,38 @@ export default function Home() {
         throw new Error(text);
       }
 
-      setTodo(Todos.filter((todo) => todo.id !== id));
-      console.log("Deleted todo id:", id);
+      setTodo(Todos.filter((todo) => todo.id !== id));     
     } catch (err) {
       console.error("Delete Error:", err);
     }
-  };
+  }
+
+    const handleUpdateStatus = async (id, currentStatus) => {
+
+    try {
+      const res = await fetch("/api/todo/[id]", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: id,
+                             status: !currentStatus
+       }), 
+    });
+
+      if (!res.ok) throw new Error("Update failed");
+
+        setTodo((prev) =>
+          prev.map((item) =>
+            item.id === id
+              ? { ...item, status: !currentStatus }
+              : item
+          )
+        );
+      } catch (err) {
+        console.error(err);
+      }
+  }
 
   return(
         <div >
@@ -64,13 +90,13 @@ export default function Home() {
                     Todos.map((item) => (
                         <div key={item.id}>
 
-                        <button onClick={() => router.push(`/EditTodo?id=${item.id}`)}>
-                              🟢
+                        <button onClick={() => handleUpdateStatus(item.id, item.status)}>
+                              {item.status ? "🟢" : "⚪"}
                         </button>
 
                             <h3>{item.id}</h3>
                             <h3>{item.item}</h3>
-                            <p>{item.status}</p>                          
+                            <h3>{item.status}</h3>                          
                             <hr />
                             <button onClick={() => router.push(`/EditTodo?id=${item.id}`)}>
                               Edit
