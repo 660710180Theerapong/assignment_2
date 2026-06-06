@@ -1,66 +1,67 @@
 import Head from "next/head";
 import { useState } from "react";
-
-
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter(); 
 
   const [todo, setTodo] = useState({
-        item: "",
-        status: false
-    })
+    item: "",
+    status: false
+  });
 
-      const handleChange = (e) => {
-        setTodo({
-            [e.target.name]: e.target.value
-        })
+  const handleChange = (e) => {
+    setTodo(prev => ({
+  
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch("/api/todo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(todo)
+      });
+
+      const data = await res.json();
+      console.log("SUCCESS:", data);
+
+      router.push("/");
+
+    } catch (err) {
+      console.error("ERROR:", err);
     }
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+  return (
+    <div>
+      <Head>
+        <title>Add Todo</title>
+      </Head>
 
-        try {
-            const res = await fetch("/api/todo", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(todo)
-            })
-
-            const data = await res.json()
-            console.log("SUCCESS:", data)
-
-        } catch (err) {
-            console.error("ERROR:", err)
-        }
-    }
-
-  return(
-        <div>
-            <Head>
-                <title>Add Todo</title>
-            </Head>
-
-            <div>
-            <h1>Add Todo</h1>
-            <form  onSubmit={handleSubmit}>
-
-                <div>
-                    <h2>Todo</h2>
-                    <input 
-                        type="text"
-                        name="item"
-                        placeholder="Enter your todo"
-                        onChange={handleChange}
-                    />
-                </div>
-                <button type="submit">
-                    Add
-                </button>
-
-            </form>
-            </div>
-        </div>
-    )
+      <div>
+        <h1>Add Todo</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <h2>Todo</h2>
+            <input 
+              type="text"
+              name="item"
+              placeholder="Enter your todo"
+              onChange={handleChange}
+            />
+          </div>
+          <button type="submit">
+            Add
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
