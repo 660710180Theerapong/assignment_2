@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import styles from "@/styles/AddTodo.module.css";
 
 export default function Home() {
   const router = useRouter(); 
@@ -47,7 +48,7 @@ export default function Home() {
 
       <div>
         <h1>Add Todo</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className={styles.container}>
           <div>
             <h2>Todo</h2>
             <input 
@@ -57,8 +58,12 @@ export default function Home() {
               onChange={handleChange}
             />
           </div>
-          <button type="submit">
+          
+          <button type="submit" className={styles.add}>
             Add
+          </button>
+          <button type="button" onClick={()=>router.push("/")} className={styles.cancel}>
+            cancel
           </button>
         </form>
       </div>

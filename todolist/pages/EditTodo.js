@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import styles from "@/styles/EditTodo.module.css";
 
 export default function EditTodo() {
     const router = useRouter();
@@ -51,15 +52,18 @@ export default function EditTodo() {
 
             <h1>Edit Todo</h1>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className={styles.container}>
                 <input
                     type="text"
                     name="item"
                     onChange={handleChange}
                 />
-
-                <button type="submit">
+                
+                <button type="submit" className={styles.save}>
                     Save
+                </button>
+                <button type="button" onClick={()=>router.push("/")} className={styles.cancel}>
+                    cancel
                 </button>
             </form>
         </div>
