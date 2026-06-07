@@ -76,7 +76,7 @@ export default function Home() {
   return(
         <div >
           <Head>
-              <title>Todolist</title>
+              <title>Todo List</title>
           </Head>
 
             <div>
