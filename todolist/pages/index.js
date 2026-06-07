@@ -27,7 +27,7 @@ export default function Home() {
     if (!confirm("คุณต้องการลบ Todo นี้ใช่ไหม?")) return;
 
     try {
-      const res = await fetch("/api/todo/[id]", {
+      const res = await fetch("/api/todo//${id}", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export default function Home() {
     const handleUpdateStatus = async (id, currentStatus) => {
 
     try {
-      const res = await fetch("/api/todo/[id]", {
+      const res = await fetch("/api/todo//${id}", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
