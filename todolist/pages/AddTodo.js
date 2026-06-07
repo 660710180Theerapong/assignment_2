@@ -12,11 +12,11 @@ export default function Home() {
   });
 
   const handleChange = (e) => {
-    setTodo(prev => ({
-  
-      [e.target.name]: e.target.value
-    }));
-  };
+        setTodo({
+            ...todo,
+            [e.target.name]: e.target.value
+        });
+    };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
