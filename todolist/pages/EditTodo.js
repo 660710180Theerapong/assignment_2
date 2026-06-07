@@ -56,6 +56,7 @@ export default function EditTodo() {
                 <input
                     type="text"
                     name="item"
+                    placeholder="Enter your todo"
                     onChange={handleChange}
                 />
                 
