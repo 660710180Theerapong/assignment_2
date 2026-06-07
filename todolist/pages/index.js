@@ -80,7 +80,7 @@ export default function Home() {
           </Head>
 
             <div>
-                <h2>กระดานความคิดเห็น</h2>
+                <h2>Todo List</h2>
                 <button onClick={() => router.push("/AddTodo")} className={styles.add}>
                   Add Todo
                 </button>
