@@ -2,7 +2,6 @@ import pool from "@/database/db";
 
 export const createTodo = async (data) => {
     const { item, status } = data;
-    console.log("ITEM: ", item)
     const query = `
         INSERT INTO todoList (item, status)
         VALUES ($1, $2)

@@ -95,7 +95,6 @@ export default function Home() {
                         </button>
                         
                         <hr />
-                            <h3>{item.id}</h3>
                             <h3>{item.item}</h3>
                             <h3>{item.status}</h3>                          
                             
