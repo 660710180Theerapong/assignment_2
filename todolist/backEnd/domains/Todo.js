@@ -1,13 +1,11 @@
 export class Todo{
     constructor({item, status}){
-        if (item === null && status === null) {
+
+        if (item === undefined && status === undefined) {
             throw new Error("please enter your todo");
         }
-
-
-
-        this.item = item
-        this.status = status
+        this.item = item;
+        this.status = status;
 
 
 

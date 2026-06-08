@@ -13,7 +13,7 @@ export default function Home() {
 
   const handleChange = (e) => {
         setTodo({
-            ...todo,
+          
             [e.target.name]: e.target.value
         });
     };
