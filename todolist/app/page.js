@@ -1,7 +1,8 @@
+"use client"
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 
 export default function Home() {
@@ -12,8 +13,9 @@ export default function Home() {
     try{
         const res = await fetch("/api/todos")
         const data = await res.json()
-
+        
         setTodo(data.data)
+        console.log(data)
     } catch (err) {
       console.error(err)
     }
@@ -27,7 +29,7 @@ export default function Home() {
     if (!confirm("คุณต้องการลบ Todo นี้ใช่ไหม?")) return;
 
     try {
-      const res = await fetch("/api/todo//${id}", {
+      const res = await fetch(`/api/todo/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -49,13 +51,13 @@ export default function Home() {
     const handleUpdateStatus = async (id, currentStatus) => {
 
     try {
-      const res = await fetch("/api/todo//${id}", {
+      const res = await fetch("/api/todo/${id}", {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ id: id,
-                             status: !currentStatus
+        status: !currentStatus
        }), 
     });
 
@@ -95,10 +97,11 @@ export default function Home() {
                         </button>
                         
                         <hr />
+                            <h3>{item.id}</h3>
                             <h3>{item.item}</h3>
                             <h3>{item.status}</h3>                          
                             
-                            <button onClick={() => router.push(`/EditTodo?id=${item.id}`)} className={styles.edit}>
+                            <button onClick={() => router.push(`/EditTodo/${item.id}`)} className={styles.edit}>
                               Edit
                             </button>
 

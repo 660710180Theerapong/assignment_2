@@ -1,17 +1,26 @@
 import { getAllTodoUsecase } from "../usecase/getAllTodoUsecase";
 
-export default async function getAllTodoHandler (req, res) {
+export default async function getAllTodoHandler(req) {  
     if (req.method === "GET"){
                 try{
                     const todo = await getAllTodoUsecase()
-                    res.status(200).json({success: true, data: todo})
+                    return Response.json(
+                      { success: true, data: todo },
+                      { status: 200 }
+                    );
         
                 } catch(err) {
                     console.error("Get Error: ", err)
-                    res.status(400).json({success: false, error: err.message })
+                    return Response.json(
+                      { success: false, error: err.message },
+                      { status: 400 }
+                    );
                 }
         
             } else {
-                res.status(405).json({success:false, error: "Method not allowed"})
+                return Response.json(
+                      { success: false, error: "Method not allowed" },
+                      { status: 405 }
+                    );
             }
 }

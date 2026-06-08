@@ -1,27 +1,28 @@
 import { createTodoUsecase } from "../usecase/createTodoUsecase";
 
-export default async function createTodoHandler(req, res) {
+export default async function createTodoHandler(req) {
     if (req.method === "POST") {
         try {
-            const todo = await createTodoUsecase(req.body);
+            const body = await req.json();
+            const todo = await createTodoUsecase(body);
 
-            return res.status(201).json({
-                success: true,
-                data: todo
-            });
+            return Response.json(
+                { success: true, data: todo },
+                { status: 201}
+            );
 
         } catch (err) {
             console.error("Create Error:", err);
 
-            return res.status(400).json({
-                success: false,
-                error: err.message
-            });
+            return Response.json(
+                { success: false, error: err.message },
+                { status: 400 }
+        );
         }
     }
 
-    return res.status(405).json({
-        success: false,
-        error: "Method not allowed"
-    });
+    return Response.json(
+        { success: false, error: "Method not allowed" },
+        { status: 405 }
+    );
 }

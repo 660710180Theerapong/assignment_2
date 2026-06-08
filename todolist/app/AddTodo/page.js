@@ -1,6 +1,8 @@
+"use client"
+
 import Head from "next/head";
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import styles from "@/styles/AddTodo.module.css";
 
 export default function Home() {
@@ -13,7 +15,7 @@ export default function Home() {
 
   const handleChange = (e) => {
         setTodo({
-          
+            ...todo,
             [e.target.name]: e.target.value
         });
     };
@@ -22,6 +24,7 @@ export default function Home() {
     e.preventDefault();
 
     try {
+      console.log("Todo: ",todo)
       const res = await fetch("/api/todo", {
         method: "POST",
         headers: {
