@@ -76,11 +76,11 @@ export default function Home() {
   return(
         <div >
           <Head>
-              <title>Todolist</title>
+              <title>Todo List</title>
           </Head>
 
             <div>
-                <h2>Todo List</h2>
+                <h1>Todo List</h1>
                 <button onClick={() => router.push("/AddTodo")} className={styles.add}>
                   Add Todo
                 </button>
