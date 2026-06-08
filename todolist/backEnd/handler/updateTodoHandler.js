@@ -1,17 +1,27 @@
 import { updateTodoUsecase } from "../usecase/updateTodoUsecase";
 
-export default async function updateTodoHandler (req, res) {
+export default async function updateTodoHandler (req) {
     if (req.method === "PATCH"){
         try{
-            const todo = await updateTodoUsecase(req.body)
-            res.status(200).json({success: true, data: todo})
+            const body = await req.json();
+            const todo = await updateTodoUsecase(body)
+            return Response.json(
+                      { success: true, data: todo },
+                      { status: 200 }
+                    );
             
         } catch(err) {
             console.error("PATCH Error: ", err)
-            res.status(400).json({success: false, error: err.message })
+            return Response.json(
+                { success: true, error: err.message },
+                { status: 400 }
+            )
         }
             
     } else {
-        res.status(405).json({success:false, error: "Method not allowed"})
+        return Response.json(
+            { success: false, error: "Method not allowed"},
+            { status: 405 }
+        )
     }
 }
