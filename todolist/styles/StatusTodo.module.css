@@ -1,0 +1,8 @@
+.largeCheckbox {
+  transform: scale(4);
+  margin-right: 10px;   
+  cursor: pointer;
+  padding: 5px;
+  margin: 10px;
+  
+}

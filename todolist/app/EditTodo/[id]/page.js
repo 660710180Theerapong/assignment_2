@@ -54,14 +54,17 @@ export default function EditTodo() {
                     placeholder="Enter your todo"
                     onChange={handleChange}
                 />
-                
-                <button type="submit" className={styles.save}>
+                <div className={styles.button}>
+                    <button type="submit" className={styles.save}>
                     Save
                 </button>
                 <button type="button" onClick={()=>router.push("/")} className={styles.cancel}>
                     cancel
                 </button>
+                </div>
+                
             </form>
+            
         </div>
     );
 }

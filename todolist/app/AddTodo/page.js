@@ -61,14 +61,20 @@ export default function Home() {
               onChange={handleChange}
             />
           </div>
+          <hr/>
+          <div className={styles.button}>
+            <button type="submit" className={styles.add}>
+              Add
+            </button>
+            <button type="button" onClick={()=>router.push("/")} className={styles.cancel}>
+              cancel
+            </button>
+
+          </div>
           
-          <button type="submit" className={styles.add}>
-            Add
-          </button>
-          <button type="button" onClick={()=>router.push("/")} className={styles.cancel}>
-            cancel
-          </button>
+          
         </form>
+        
       </div>
     </div>
   );
