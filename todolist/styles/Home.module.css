@@ -27,10 +27,22 @@
       padding: 10px;
       background: green;
       border-radius: 10px;
+      width: 90px;
 }
 
    .add:hover{
       background: rgb(8, 75, 8);
+}
+    .more_details{
+      margin: 5px;
+      padding: 10px;
+      background: rgb(215, 215, 215);
+      border-radius: 10px;
+      width: 90px;
+}
+
+   .more_details:hover{
+      background: rgb(108, 108, 108);
 }
 
 .button {

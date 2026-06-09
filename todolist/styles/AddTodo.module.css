@@ -13,6 +13,7 @@
       padding: 10px;
       background: green;
       border-radius: 10px;
+      width: 90px;
 }
 
    .add:hover{
@@ -24,6 +25,7 @@
       padding: 10px;
       background: rgb(215, 215, 215);
       border-radius: 10px;
+      width: 90px;
 }
 
    .cancel:hover{

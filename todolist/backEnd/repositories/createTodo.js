@@ -1,14 +1,15 @@
 import pool from "@/database/db";
 
 export const createTodo = async (data) => {
-    const { item, status } = data;
+    const { title, item, status } = data;
     const query = `
-        INSERT INTO todoList (item, status)
-        VALUES ($1, $2)
+        INSERT INTO todoList (title, item, status)
+        VALUES ($1, $2, $3)
         RETURNING *;
     `;
 
     const values = [
+        title,
         item,
         Boolean(status)  
     ];

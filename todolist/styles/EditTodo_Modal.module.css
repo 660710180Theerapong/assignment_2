@@ -12,6 +12,7 @@
       padding: 10px;
       background: green;
       border-radius: 10px;
+      width: 90px;
 }
 
    .edit:hover{
@@ -23,6 +24,7 @@
       padding: 10px;
       background: green;
       border-radius: 10px;
+      width: 90px;
 }
 
    .save:hover{
@@ -35,6 +37,7 @@
       background: rgb(215, 215, 215);
       border-radius: 10px;
       justify-content: flex-end;
+      width: 90px;
 }
 
    .cancel:hover{

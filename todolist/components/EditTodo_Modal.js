@@ -1,17 +1,18 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import styles from "@/styles/EditTodo_Modal.module.css"
 
-export default function EditTodo({id, onUpdated}) {
+export default function EditTodo({id, onUpdated, item}) {
     const [isEditOpen, setIsEditOpen] = useState(false);
-    const router = useRouter();
+
 
 
     const [todo, setTodo] = useState({
         id: id,
-        item: ""
+        title: item.title,
+        item: item.item
     });
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,8 +22,6 @@ export default function EditTodo({id, onUpdated}) {
         body: JSON.stringify(todo)
         });
 
-        const data = await res.json();
-        console.log(data);     
         setIsEditOpen(false);
         onUpdated();
         
@@ -52,20 +51,24 @@ export default function EditTodo({id, onUpdated}) {
                     <h1>Edit Todo</h1>
 
                     <form onSubmit={handleSubmit}>
-                        {/* <p>Title: </p>
+                 
+                        <p>Title: </p>
                         <input
                             type="text"
-                            name="item"
-                            placeholder="Enter your Title"
+                            name="title"
+                            defaultValue={item.title}
+                            placeholder="Enter your title"
                             onChange={handleChange}
-                        /> */}
+                        />
                         <p>Todo: </p>
-                        <input
-                            type="text"
+                        <textarea
+                            type="textarea"
                             name="item"
+                            defaultValue={item.item}
                             placeholder="Enter your todo"
                             onChange={handleChange}
                         />
+
                         <div className={styles.button}>
                             <button type="submit" className={styles.save}>
                             Save
@@ -74,7 +77,7 @@ export default function EditTodo({id, onUpdated}) {
                         <button
                             onClick={() => {
                                 setIsEditOpen(false);
-                                setEditId(null);
+                  
                             }} className={styles.cancel}
                             >
                                 Cancel

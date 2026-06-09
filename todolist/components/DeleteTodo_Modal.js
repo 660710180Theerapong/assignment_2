@@ -34,10 +34,12 @@ return(
             <div className={styles.modalOverlay}>
                 <div className={styles.modal}>
 
+                <div>
                 <h3>⚠️ Delete Todo Alert</h3>
                 <p>Are you sure you want to delete this todo?</p>
 
                 <div className={styles.button}>
+
                     <button onClick={handleDelete} className={styles.delete}>
                     Delete
                     </button>
@@ -45,12 +47,15 @@ return(
                     <button
                     onClick={() => {
                         setIsDeleteOpen(false);
-                        setDeleteId(null);
+                
                     }} className={styles.cancel}
                     >
                     Cancel
                     </button>
                 </div>
+                    
+                </div>
+                
 
                 </div>
             </div>

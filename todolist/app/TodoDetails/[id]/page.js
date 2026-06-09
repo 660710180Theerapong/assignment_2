@@ -4,6 +4,8 @@ import styles from "@/styles/TodoDetails.module.css";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 
+
+
 export default function TodoDetails() {
     const router = useRouter();
     const { id } = useParams();
@@ -40,8 +42,10 @@ export default function TodoDetails() {
             <div>
                 <h1>Todo Details</h1>
                 <div className={styles.card}>
-                    <h2>Todo: {Todo.item}</h2>
-                    <h2>ID: {Todo.id}</h2>
+                    <h2>Title: {Todo.title}</h2>
+                    <h3>ID: {Todo.id}</h3>
+                    <h3>Todo: {Todo.item}</h3>
+                    <h3>Status: {Todo.status ? '🟢 Done' : '🔴 Not done'}</h3>
 
                 <div>
                     <button

@@ -9,6 +9,7 @@ export default function Home() {
   const router = useRouter(); 
 
   const [todo, setTodo] = useState({
+    title: "",
     item: "",
     status: false
   });
@@ -51,11 +52,19 @@ export default function Home() {
 
       <div>
         <h1>Add Todo</h1>
-        <form onSubmit={handleSubmit} className={styles.container}>
+        <div className={styles.container}>
+          <form onSubmit={handleSubmit} >
           <div>
-            <h2>Todo</h2>
+            <h2>Title</h2>
             <input 
               type="text"
+              name="title"
+              placeholder="Enter your title"
+              onChange={handleChange}
+            />
+            <h2>Todo</h2>
+            <textarea
+              type="textarea"
               name="item"
               placeholder="Enter your todo"
               onChange={handleChange}
@@ -66,6 +75,7 @@ export default function Home() {
             <button type="submit" className={styles.add}>
               Add
             </button>
+
             <button type="button" onClick={()=>router.push("/")} className={styles.cancel}>
               cancel
             </button>
@@ -74,6 +84,9 @@ export default function Home() {
           
           
         </form>
+
+        </div>
+        
         
       </div>
     </div>

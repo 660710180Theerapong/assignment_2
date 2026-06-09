@@ -1,9 +1,16 @@
-  .delete{
+.container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+ }
+.delete{
       margin: 5px;
       padding: 10px;
       background: rgb(194, 0, 0);
       border-radius: 10px;
       justify-content: flex-start;
+      width: 90px;
 }
 
    .delete:hover{
@@ -16,6 +23,7 @@
       background: rgb(215, 215, 215);
       border-radius: 10px;
       justify-content: flex-end;
+      width: 90px;
 }
 
    .cancel:hover{
@@ -36,6 +44,7 @@
   color: black;
   padding: 20px;
   border-radius: 10px;
+  justify-content: center;
 }
 
 .button {
