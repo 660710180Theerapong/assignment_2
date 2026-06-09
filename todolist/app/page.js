@@ -3,7 +3,9 @@ import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-
+import DeleteTodo_Modal from "@/components/DeleteTodo_Modal";
+import EditTodo_Modal from "@/components/EditTodo_Modal"
+import StatusTodo from "@/components/StatusTodo"
 
 export default function Home() {
   const router = useRouter();
@@ -11,13 +13,13 @@ export default function Home() {
 
   const fetchTodos = async () =>{
     try{
-        const res = await fetch("/api/todos")
+        const res = await fetch(`/api/todos`)
         const data = await res.json()
         
         setTodo(data.data)
         console.log(data)
     } catch (err) {
-      console.error(err)
+        console.error(err)
     }
   }
 
@@ -25,55 +27,8 @@ export default function Home() {
     fetchTodos()
   }, [])
   
-  const handleDelete = async (id) => {
-    if (!confirm("คุณต้องการลบ Todo นี้ใช่ไหม?")) return;
-
-    try {
-      const res = await fetch(`/api/todo/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: id }), 
-    });
-
-      if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text);
-      }
-
-      setTodo(Todos.filter((todo) => todo.id !== id));     
-    } catch (err) {
-      console.error("Delete Error:", err);
-    }
-  }
-
-    const handleUpdateStatus = async (id, currentStatus) => {
-
-    try {
-      const res = await fetch("/api/todo/${id}", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: id,
-        status: !currentStatus
-       }), 
-    });
-
-      if (!res.ok) throw new Error("Update failed");
-
-        setTodo((prev) =>
-          prev.map((item) =>
-            item.id === id
-              ? { ...item, status: !currentStatus }
-              : item
-          )
-        );
-      } catch (err) {
-        console.error(err);
-      }
-  }
+  
+    
 
   return(
         <div >
@@ -92,22 +47,25 @@ export default function Home() {
                     Todos.map((item) => (
                         <div key={item.id} className={styles.card}>
 
-                        <button onClick={() => handleUpdateStatus(item.id, item.status)} className={styles.status}>
-                              {item.status ? "✔️" : "🔘"}
-                        </button>
+                        <StatusTodo id={item.id} status={item.status} onUpdated={fetchTodos} />
                         
                         <hr />
                             <h3>{item.id}</h3>
                             <h3>{item.item}</h3>
                             <h3>{item.status}</h3>                          
                             
-                            <button onClick={() => router.push(`/EditTodo/${item.id}`)} className={styles.edit}>
-                              Edit
-                            </button>
 
-                            <button onClick={() => handleDelete(item.id)} className={styles.delete}>
-                              Delete
-                            </button>
+                            <div className={styles.button}>
+                             
+                              <EditTodo_Modal id={item.id} onUpdated={fetchTodos} />
+                              <DeleteTodo_Modal id={item.id} onUpdated={fetchTodos} />
+
+                              <button onClick={() => router.push(`/TodoDetails/${item.id}`)}>
+                                More Details
+                              </button>
+                            </div>
+                            
+
                         </div>
                     ))
                 )}

@@ -1,0 +1,44 @@
+  .delete{
+      margin: 5px;
+      padding: 10px;
+      background: rgb(194, 0, 0);
+      border-radius: 10px;
+      justify-content: flex-start;
+}
+
+   .delete:hover{
+      background: rgb(75, 8, 8);
+}
+
+  .cancel{
+      margin: 5px;
+      padding: 10px;
+      background: rgb(215, 215, 215);
+      border-radius: 10px;
+      justify-content: flex-end;
+}
+
+   .cancel:hover{
+      background: rgb(108, 108, 108);
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.button {
+  display: flex;
+  gap: 10px;
+}
