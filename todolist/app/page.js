@@ -42,7 +42,7 @@ export default function Home() {
                   Add Todo
                 </button>
                 {Todos.length === 0 ? (
-                    <h1>Todo List</h1>
+                    <h1>Not found todo list.</h1>
                 ) : (
                     Todos.map((item) => (
                         <div key={item.id} className={styles.card}>
@@ -50,18 +50,16 @@ export default function Home() {
                         <StatusTodo id={item.id} status={item.status} onUpdated={fetchTodos} />
                         
                         <hr />
-                            <h3>{item.id}</h3>
-                            <h3>{item.item}</h3>
-                            <h3>{item.status}</h3>                          
+                            <h3>🔶 {item.title}</h3>                        
                             
 
                             <div className={styles.button}>
                              
-                              <EditTodo_Modal id={item.id} onUpdated={fetchTodos} />
+                              <EditTodo_Modal id={item.id} onUpdated={fetchTodos}  item={item} />
                               <DeleteTodo_Modal id={item.id} onUpdated={fetchTodos} />
 
-                              <button onClick={() => router.push(`/TodoDetails/${item.id}`)}>
-                                More Details
+                              <button onClick={() => router.push(`/TodoDetails/${item.id}`)} className={styles.more_details}>
+                                Details
                               </button>
                             </div>
                             
