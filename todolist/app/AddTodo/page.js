@@ -67,6 +67,13 @@ export default function Home() {
               placeholder="Enter your title"
               onChange={handleChange}
               className="border border-gray-400 rounded p-2 w-full"
+              required
+              onInvalid={(e) =>
+                e.target.setCustomValidity("Please enter your title")
+              }
+              onInput={(e) =>
+                e.target.setCustomValidity("")
+              }
             />
             <h2>Todo: </h2>
             <textarea
@@ -74,6 +81,13 @@ export default function Home() {
               placeholder="Enter your todo"
               onChange={handleChange}
               className="border border-gray-400 rounded p-2 w-full"
+              required
+              onInvalid={(e) =>
+                e.target.setCustomValidity("Please enter your todo")
+              }
+              onInput={(e) =>
+                e.target.setCustomValidity("")
+              }
             />
           </div>
           <hr/>
