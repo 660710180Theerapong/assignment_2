@@ -1,7 +1,9 @@
 import { useState } from "react";
-import styles from "@/styles/Delete_Modal.module.css"
+import { Button } from "@heroui/react";
 
-export default function Delete_popup({id, onUpdated}){
+import styles from "@/styles/DeleteTodoModal.module.css"
+
+export default function DeleteModal({id, onUpdated}){
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
     const handleDelete = async () => {
@@ -22,36 +24,36 @@ export default function Delete_popup({id, onUpdated}){
 
 
 return(
-    <div>
+    <div className="w-[100px] space-y-3 pt-5">
 
-        <button onClick={() => {
+        <Button onClick={() => {
             setIsDeleteOpen(true);
-            }} className={styles.delete}>
+            }} variant="danger" fullWidth>
                 Delete
-        </button>
+        </Button>
         
         {isDeleteOpen && (
             <div className={styles.modalOverlay}>
                 <div className={styles.modal}>
 
-                <div>
+                <div className="justify-items-center">
                 <h3>⚠️ Delete Todo Alert</h3>
                 <p>Are you sure you want to delete this todo?</p>
 
-                <div className={styles.button}>
+                <div className="w-[200px] flex gap-3">
 
-                    <button onClick={handleDelete} className={styles.delete}>
+                    <Button onClick={handleDelete} variant="danger" fullWidth>
                     Delete
-                    </button>
+                    </Button>
 
-                    <button
+                    <Button
                     onClick={() => {
                         setIsDeleteOpen(false);
                 
-                    }} className={styles.cancel}
+                    }} variant="secondary" fullWidth
                     >
                     Cancel
-                    </button>
+                    </Button>
                 </div>
                     
                 </div>

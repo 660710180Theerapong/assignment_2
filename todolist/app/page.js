@@ -1,11 +1,14 @@
 "use client"
+import { Button, Card } from '@heroui/react';
 import Head from "next/head";
-import styles from "@/styles/Home.module.css";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import DeleteTodo_Modal from "@/components/DeleteTodo_Modal";
-import EditTodo_Modal from "@/components/EditTodo_Modal"
+
+import DeleteTodoModal from "@/components/DeleteTodoModal";
+import EditTodoModal from "@/components/EditTodoModal"
 import StatusTodo from "@/components/StatusTodo"
+
+import styles from "@/styles/Home.module.css";
 
 export default function Home() {
   const router = useRouter();
@@ -27,9 +30,6 @@ export default function Home() {
     fetchTodos()
   }, [])
   
-  
-    
-
   return(
         <div >
           <Head>
@@ -37,33 +37,54 @@ export default function Home() {
           </Head>
 
             <div>
-                <h1>Todo List</h1>
-                <button onClick={() => router.push("/AddTodo")} className={styles.add}>
+
+               <div className="w-[100px] space-y-3 p-20">
+                <Button onClick={() => router.push("/AddTodo")} fullWidth>
                   Add Todo
-                </button>
+                </Button>
+                
+               </div>
+                <br/>
                 {Todos.length === 0 ? (
                     <h1>Not found todo list.</h1>
                 ) : (
                     Todos.map((item) => (
-                        <div key={item.id} className={styles.card}>
+                        <div key={item.id} >       
 
-                        <StatusTodo id={item.id} status={item.status} onUpdated={fetchTodos} />
-                        
-                        <hr />
-                            <h3>🔶 {item.title}</h3>                        
+                        <Card className="w-full items-stretch md:flex-row ">
+      
+      
+                          <div className="relative h-[140px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[90px] sm:w-[90px]">
+                            <StatusTodo id={item.id} status={item.status} onUpdated={fetchTodos} /> 
+                          
+                          </div>
+                          
+                          <Card.Header >
                             
+                                                
+                          </Card.Header>
+                          <Card.Content> 
+                                <h2 className="text-3xl font-bold">{item.title}</h2> 
+                          </Card.Content>
+                          <Card.Footer>
+                              
+                            </Card.Footer>
+                            <div >
+                                <EditTodoModal id={item.id} onUpdated={fetchTodos}  item={item} />
+                               
+                                <DeleteTodoModal id={item.id} onUpdated={fetchTodos} />
+                                <div className="w-[100px] space-y-3">
 
-                            <div className={styles.button}>
+                                  <Button onClick={() => router.push(`/TodoDetails/${item.id}`)}  variant='secondary' fullWidth>
+                                  Details
+                                </Button>
+                                </div>
+                                
+
                              
-                              <EditTodo_Modal id={item.id} onUpdated={fetchTodos}  item={item} />
-                              <DeleteTodo_Modal id={item.id} onUpdated={fetchTodos} />
-
-                              <button onClick={() => router.push(`/TodoDetails/${item.id}`)} className={styles.more_details}>
-                                Details
-                              </button>
-                            </div>
-                            
-
+                              </div>
+                        </Card>
+                        <br/>
                         </div>
                     ))
                 )}

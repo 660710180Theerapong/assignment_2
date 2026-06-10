@@ -3,6 +3,8 @@
 import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@heroui/react";
+
 import styles from "@/styles/AddTodo.module.css";
 
 export default function Home() {
@@ -51,34 +53,38 @@ export default function Home() {
       </Head>
 
       <div>
-        <h1>Add Todo</h1>
+        
         <div className={styles.container}>
+        
           <form onSubmit={handleSubmit} >
           <div>
-            <h2>Title</h2>
+            <h1>Add Todo</h1>  
+           <hr/>
+            <h2>Title:</h2>
             <input 
               type="text"
               name="title"
               placeholder="Enter your title"
               onChange={handleChange}
+              className="border border-gray-400 rounded p-2 w-full"
             />
-            <h2>Todo</h2>
+            <h2>Todo: </h2>
             <textarea
-              type="textarea"
               name="item"
               placeholder="Enter your todo"
               onChange={handleChange}
+              className="border border-gray-400 rounded p-2 w-full"
             />
           </div>
           <hr/>
-          <div className={styles.button}>
-            <button type="submit" className={styles.add}>
+          <div className="w-[200px] flex gap-3">
+            <Button type="submit" fullWidth>
               Add
-            </button>
+            </Button>
 
-            <button type="button" onClick={()=>router.push("/")} className={styles.cancel}>
+            <Button type="button" onClick={()=>router.push("/")} variant="secondary" fullWidth>
               cancel
-            </button>
+            </Button>
 
           </div>
           

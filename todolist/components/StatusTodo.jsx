@@ -1,5 +1,6 @@
 "use client";
-import styles from "@/styles/StatusTodo.module.css"
+import { Switch } from "@heroui/react";
+
 
 export default function StatusTodo({id, status, onUpdated}) {    
 
@@ -32,10 +33,18 @@ export default function StatusTodo({id, status, onUpdated}) {
     return (      
 
         <div>
+
+          {/* <Switch aria-label="Enable notifications">
+            <Switch.Control>
+              <Switch.Thumb />
+            </Switch.Control>
+          </Switch> */}
+
             <input
                 type="checkbox"
                 name="status"
-                className={styles.largeCheckbox}
+                
+                className="absolute inset-0 h-full w-full scale-125 object-cover select-none"
                 checked={status}
                 onChange={() => handleUpdateStatus(status)}
                          
