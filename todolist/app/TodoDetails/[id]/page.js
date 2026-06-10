@@ -1,10 +1,10 @@
 "use client"
 import Head from "next/head";
-import styles from "@/styles/TodoDetails.module.css";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { Card,Button } from "@heroui/react";
 
-
+import styles from "@/styles/TodoDetails.module.css";
 
 export default function TodoDetails() {
     const router = useRouter();
@@ -40,23 +40,34 @@ export default function TodoDetails() {
           </Head>
 
             <div>
-                <h1>Todo Details</h1>
-                <div className={styles.card}>
-                    <h2>Title: {Todo.title}</h2>
-                    <h3>ID: {Todo.id}</h3>
-                    <h3>Todo: {Todo.item}</h3>
-                    <h3>Status: {Todo.status ? '🟢 Done' : '🔴 Not done'}</h3>
-
-                <div>
-                    <button
-                        onClick={()=>router.push("/")} className={styles.back}
-                    >
-                        Back
-                    </button>
+               <Card className="w-full items-stretch">
+                    <Card.Header >
+                        <Card.Title >
+                            <p className="text-2xl font-bold">💠 {Todo.title}</p> 
+                            <hr/>
+                        </Card.Title> 
+                    </Card.Header>
+                    <Card.Content> 
+                        <div className="text-xl">
+                            <p>ID: {Todo.id}</p>
+                            <p>Todo: {Todo.item}</p>
+                            <p>Status: {Todo.status ? '🟢 Done' : '🔴 Not done'}</p>
+                        </div>
+                        
+                    </Card.Content>
+                    <Card.Footer>
+                        <div className="w-[100px] space-y-3">
+                            <Button 
+                                onClick={()=>router.push("/")} 
+                                variant="secondary" fullWidth
+                            >
+                                Back
+                            </Button>
                 </div>
-
-
-                </div>
+                    </Card.Footer>
+                </Card>
+          
+                
 
                 
               

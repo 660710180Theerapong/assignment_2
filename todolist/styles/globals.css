@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@import "@heroui/styles"; 
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -5,7 +8,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #dbcfb3;
+    --background: #262429;
     --foreground: #24201d;
   }
 }
@@ -26,8 +29,8 @@ body {
 
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+  padding: 5;
+  margin: 5;
 }
 
 a {

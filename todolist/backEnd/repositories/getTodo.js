@@ -10,7 +10,7 @@ export const getTodo = async(data) =>{
     const values = [id]
 
     const res = await pool.query(query, values)
-    console.log("GET RESULT: ", res.rows[0])
+    // console.log("GET RESULT: ", res.rows[0])
     return res.rows[0]
 
 
