@@ -2,19 +2,20 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Card,Button } from "@heroui/react";
+import { Card,Button, ProgressCircle, Label, Spinner } from "@heroui/react";
 
-import styles from "@/styles/TodoDetails.module.css";
 
 export default function TodoDetails() {
     const router = useRouter();
     const { id } = useParams();
     const numericId = Number(id);
     const [Todo, setTodo] = useState([])
-
+    const [loading, setLoading] = useState(true)
+    const [pending, setPending] = useState(false)
   
     const fetchTodo = async () =>{
         try {
+            setLoading(true)
             const res = await fetch(`/api/todo/${numericId}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -27,12 +28,34 @@ export default function TodoDetails() {
        
         } catch (err) {
             console.error("GET Error:", err);
-  }}
+        }finally{
+            setLoading(false)
+        }}
   
       useEffect(() => {
     fetchTodo()
   }, [])
 
+    const handleClick =()=>{
+        setPending(true) 
+        router.push("/") 
+        
+    }
+
+   if (loading) {
+      return (
+      <div className="flex min-h-screen items-center justify-center gap-3">
+       <ProgressCircle isIndeterminate aria-label="Loading">
+        <ProgressCircle.Track>
+          <ProgressCircle.TrackCircle />
+          <ProgressCircle.FillCircle />
+        </ProgressCircle.Track>
+        </ProgressCircle>
+        <Label className="text-3xl font-bold text-white text-center">Loading...</Label>
+      </div>
+    )
+    } 
+    
   return(
         <div >
           <Head>
@@ -57,11 +80,12 @@ export default function TodoDetails() {
                     </Card.Content>
                     <Card.Footer>
                         <div className="w-[100px] space-y-3">
-                            <Button 
-                                onClick={()=>router.push("/")} 
-                                variant="secondary" fullWidth
-                            >
-                                Back
+                            <Button onClick={handleClick} variant="secondary" fullWidth isPending={pending}>
+                                {({ isPending }) => (
+                                    <>
+                                        {isPending ? <Spinner color="current" size="xl" /> : 'Back'}                          
+                                    </>
+                                )}
                             </Button>
                 </div>
                     </Card.Footer>

@@ -1,14 +1,13 @@
 "use client";
-import { Button } from "@heroui/react";
+import { Button, Spinner } from "@heroui/react";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 
 import styles from "@/styles/EditTodoModal.module.css"
 
 export default function EditTodoModal({id, onUpdated, item}) {
-    const [isEditOpen, setIsEditOpen] = useState(false);
-
-
+    const [isEditOpen, setIsEditOpen] = useState(false)
+    const [pending, setPending] = useState(false)
 
     const [todo, setTodo] = useState({
         id: id,
@@ -19,6 +18,8 @@ export default function EditTodoModal({id, onUpdated, item}) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setPending(true)
+
         const res = await fetch(`/api/todo/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -88,15 +89,23 @@ export default function EditTodoModal({id, onUpdated, item}) {
                 />
 
                 <div className="w-[200px] flex gap-3">
-                    <Button type="submit" fullWidth>
-                    Save
+                    <Button type="submit" fullWidth isPending={pending}>
+                        {({ isPending }) => (
+                            <>
+                                {isPending ? <Spinner color="current" size="xl" /> : 'Save'} 
+                                      
+                            </>
+                        )}
                     </Button>
 
                     <Button
                     type="button"
                     variant="secondary"
                     fullWidth
-                    onClick={() => setIsEditOpen(false)}
+                    onClick={() =>{ 
+                        setIsEditOpen(false);
+                        }
+                    }
                     >
                     Cancel
                     </Button>
