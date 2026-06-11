@@ -3,12 +3,14 @@
 import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@heroui/react";
+import { Button, Spinner } from "@heroui/react";
 
 import styles from "@/styles/AddTodo.module.css";
 
-export default function Home() {
+export default function AddTodo() {
   const router = useRouter(); 
+  const [pending, setPending] = useState(false);
+  const [cancelPending, setCancelPending] = useState(false);
 
   const [todo, setTodo] = useState({
     title: "",
@@ -25,9 +27,10 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     try {
-      console.log("Todo: ",todo)
+      setPending(true)
+
       const res = await fetch("/api/todo", {
         method: "POST",
         headers: {
@@ -40,11 +43,13 @@ export default function Home() {
       console.log("SUCCESS:", data);
 
       router.push("/");
-
+      
     } catch (err) {
       console.error("ERROR:", err);
-    }
+    } 
   };
+
+
 
   return (
     <div>
@@ -92,12 +97,23 @@ export default function Home() {
           </div>
           <hr/>
           <div className="w-[200px] flex gap-3">
-            <Button type="submit" fullWidth>
-              Add
+            <Button type="submit" fullWidth isPending={pending}>
+              {({ isPending }) => (
+                <>
+                  {isPending ? <Spinner color="current" size="xl" /> : 'Add'} 
+                  
+                </>
+              )}
             </Button>
 
-            <Button type="button" onClick={()=>router.push("/")} variant="secondary" fullWidth>
-              cancel
+            
+            <Button type="button" onClick={()=>{router.push("/"); setCancelPending(true);}} variant="secondary" fullWidth isPending={cancelPending}>
+              {({ isPending }) => (
+                <>
+                  {isPending ? <Spinner color="current" size="xl" /> : 'Cancel'} 
+                  
+                </>
+              )}
             </Button>
 
           </div>

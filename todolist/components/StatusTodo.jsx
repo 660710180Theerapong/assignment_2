@@ -1,13 +1,15 @@
 "use client";
-import { Switch } from "@heroui/react";
+
+import { useState } from "react";
 
 
 export default function StatusTodo({id, status, onUpdated}) {    
 
-
+    const [statusPending, setStatusPending]=useState(false)
     const handleUpdateStatus = async (currentStatus) => {
 
     try {
+      setStatusPending(true)
       const res = await fetch(`/api/todo/${id}`, {
       method: "PATCH",
       headers: {
@@ -22,9 +24,11 @@ export default function StatusTodo({id, status, onUpdated}) {
 
   
         onUpdated();
-
+ 
       } catch (err) {
         console.error(err);
+      } finally {
+        setStatusPending(false)
       }
   }
 
@@ -34,16 +38,11 @@ export default function StatusTodo({id, status, onUpdated}) {
 
         <div>
 
-          {/* <Switch aria-label="Enable notifications">
-            <Switch.Control>
-              <Switch.Thumb />
-            </Switch.Control>
-          </Switch> */}
 
             <input
                 type="checkbox"
                 name="status"
-                
+                disabled={statusPending}  
                 className="absolute inset-0 h-full w-full scale-125 object-cover select-none"
                 checked={status}
                 onChange={() => handleUpdateStatus(status)}

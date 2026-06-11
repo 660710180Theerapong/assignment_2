@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Button } from "@heroui/react";
+import { Button, Spinner } from "@heroui/react";
 import { createPortal } from "react-dom";
 
 import styles from "@/styles/DeleteTodoModal.module.css"
 
 export default function DeleteModal({id, onUpdated}){
-    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false)
+    const [pending, setPending] = useState(false)
 
     const handleDelete = async () => {
   try {
+    setPending(true)
     const res = await fetch(`/api/todo/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -23,6 +25,7 @@ export default function DeleteModal({id, onUpdated}){
     console.error("Delete Error:", err);
   }}
 
+ 
 
 return(
     <div className="w-[100px] space-y-3 pt-5">
@@ -43,15 +46,21 @@ return(
 
                 <div className="w-[200px] flex gap-3">
 
-                    <Button onClick={handleDelete} variant="danger" fullWidth>
-                    Delete
+                    <Button onClick={handleDelete} variant="danger" fullWidth isPending={pending}>
+                    {({ isPending }) => (
+                        <>                        
+                        {isPending ? <Spinner color="current" size="xl" /> : 'Delete'}                        
+                        </>
+                    )}
                     </Button>
 
                     <Button
                     onClick={() => {
                         setIsDeleteOpen(false);
                 
+                
                     }} variant="secondary" fullWidth
+            
                     >
                     Cancel
                     </Button>
