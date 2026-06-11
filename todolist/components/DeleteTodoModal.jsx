@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@heroui/react";
+import { createPortal } from "react-dom";
 
 import styles from "@/styles/DeleteTodoModal.module.css"
 
@@ -32,7 +33,7 @@ return(
                 Delete
         </Button>
         
-        {isDeleteOpen && (
+        {isDeleteOpen && createPortal(
             <div className={styles.modalOverlay}>
                 <div className={styles.modal}>
 
@@ -60,7 +61,8 @@ return(
                 
 
                 </div>
-            </div>
+            </div>,
+            document.body
             )}
 
     </div>
