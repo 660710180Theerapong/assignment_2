@@ -98,7 +98,7 @@ export default function Home() {
                                                 
                           </Card.Header>
                           <Card.Content> 
-                                <p>{item.id}</p>
+                                
                                 <h2 className="text-3xl font-bold">{item.title}</h2> 
                           </Card.Content>
                           <Card.Footer>
