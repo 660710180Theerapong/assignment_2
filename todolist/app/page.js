@@ -46,7 +46,7 @@ export default function Home() {
                </div>
                 <br/>
                 {Todos.length === 0 ? (
-                    <h1>Not found todo list.</h1>
+                    <h1 className="text-3xl font-bold text-white text-center">Not found todo list.</h1>
                 ) : (
                     Todos.map((item) => (
                         <div key={item.id} >       
@@ -67,9 +67,7 @@ export default function Home() {
                                 <h2 className="text-3xl font-bold">{item.title}</h2> 
                           </Card.Content>
                           <Card.Footer>
-                              
-                            </Card.Footer>
-                            <div >
+                               <div >
                                 <EditTodoModal id={item.id} onUpdated={fetchTodos}  item={item} />
                                
                                 <DeleteTodoModal id={item.id} onUpdated={fetchTodos} />
@@ -83,6 +81,8 @@ export default function Home() {
 
                              
                               </div>
+                            </Card.Footer>
+                           
                         </Card>
                         <br/>
                         </div>
