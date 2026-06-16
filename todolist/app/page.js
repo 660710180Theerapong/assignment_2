@@ -17,7 +17,7 @@ export default function Home() {
   const fetchTodos = async () =>{
         const res = await fetch(`/api/todos`)
         const data = await res.json()
-        console.log("DATA: ",data)
+      
         return data
   
   }
@@ -30,8 +30,7 @@ export default function Home() {
     queryKey:["todos"],
     queryFn: fetchTodos,
   })
-  console.log("TODOS: ",todos)
-  console.log("Loading: ",isLoading)
+ 
 
 
   if (isLoading) {
@@ -75,7 +74,7 @@ export default function Home() {
       
       
                           <div className="relative h-[140px] w-full shrink-0 overflow-hidden rounded-2xl sm:h-[90px] sm:w-[90px]">
-                            <StatusTodo id={item.id} status={item.status} onUpdated={fetchTodos} /> 
+                            <StatusTodo id={item.id} status={item.status} /> 
                           
                           </div>
                           
