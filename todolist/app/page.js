@@ -94,7 +94,7 @@ export default function Home() {
                                 <DeleteTodoModal id={item.id} />
                                 <div className="w-[100px] space-y-3">
 
-                                <Button onClick={() => {router.push(`/dtails/${item.id}`); setPending(true);}} variant="secondary" fullWidth isPending={pending}>
+                                <Button onClick={() => {router.push(`/details/${item.id}`); setPending(true);}} variant="secondary" fullWidth isPending={pending}>
                                   {({ isPending }) => (
                                     <>
                                       {isPending ? <Spinner color="current" size="xl" /> : 'Details'}                          

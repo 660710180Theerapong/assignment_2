@@ -1,7 +1,7 @@
 'use client' 
 
 import { Button, Label } from '@heroui/react'
-import { useEffect } from 'react'
+
 import { useRouter } from 'next/navigation'
  
 export default function Error({ error, unstable_retry }) {
@@ -12,7 +12,7 @@ export default function Error({ error, unstable_retry }) {
   return (
     <div >
         <div className="flex min-h-screen items-center justify-center gap-3">
-            <Label className="text-3xl font-bold text-white text-center">Something went wrong!</Label>
+            <Label className="text-3xl font-bold text-white text-center">Something went wrong in todo details!</Label>
         </div>
       
     <div className="w-[100px] flax space-y-3 ">
