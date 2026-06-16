@@ -3,54 +3,40 @@ import { Button, Card, ProgressCircle, Label, Spinner } from '@heroui/react';
 import Head from "next/head";
 import { useState, useEffect, useActionState } from "react";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query"
 
 import DeleteTodoModal from "@/components/DeleteTodoModal";
 import EditTodoModal from "@/components/EditTodoModal"
 import StatusTodo from "@/components/StatusTodo"
+import LoadingUI from '@/components/LoadingUI';
 
 export default function Home() {
   const router = useRouter();
-  const [Todos, setTodo] = useState([])
-  const [loading, setLoading] = useState(true)
   const [pending, setPending] = useState(false)
-  const [addPending, setAddPending] = useState(false)
   
-
   const fetchTodos = async () =>{
-    try{
-        setLoading(true)
         const res = await fetch(`/api/todos`)
         const data = await res.json()
-        
-        setTodo(data.data)
-        console.log(data)
-    } catch (err) {
-        console.error(err)
-    } finally{
-      setLoading(false)
-    }
+        console.log("DATA: ",data)
+        return data
+  
   }
 
-  const handleClick =()=>{
-    
-  }
+  const{
+    data: todos=[],
+    isLoading,
+    error,
+  }=useQuery({
+    queryKey:["todos"],
+    queryFn: fetchTodos,
+  })
+  console.log("TODOS: ",todos)
+  console.log("Loading: ",isLoading)
 
-  useEffect(() => {
-    fetchTodos()
-  }, [])
 
-
-  if (loading) {
+  if (isLoading) {
     return (
-    <div className="flex min-h-screen items-center justify-center gap-3">
-     <ProgressCircle isIndeterminate aria-label="Loading">
-      <ProgressCircle.Track>
-        <ProgressCircle.TrackCircle />
-        <ProgressCircle.FillCircle />
-      </ProgressCircle.Track>
-      </ProgressCircle>
-      <Label className="text-3xl font-bold text-white text-center">Loading...</Label>
-    </div>
+      <LoadingUI/>
   )
   } 
   
@@ -64,7 +50,7 @@ export default function Home() {
 
                <div className="w-[100px] space-y-3 p-6">
 
-                <Button onClick={()=> {router.push("/AddTodo"); setAddPending(true);}} fullWidth isPending={addPending}>
+                <Button onClick={()=> {router.push("/add");}} fullWidth >
                     {({ isPending }) => (
                     <>
                       {isPending ? <Spinner color="current" size="xl" /> : 'Add Todo'}                          
@@ -74,15 +60,15 @@ export default function Home() {
                 
                </div>
                 <br/>
-               
-            
-                {Todos.length === 0 ? (
+       
+                  
+                {todos.data.length === 0 ? (
                   <div className='lex min-h-screen items-center justify-center gap-3'>
                       <h1 className="text-3xl font-bold text-white text-center">Not found todo.</h1>
                   </div>
                     
                 ) : (
-                    Todos.map((item) => (
+                    todos && todos.data.map((item) => (
                         <div key={item.id} >       
 
                         <Card className="w-full items-stretch md:flex-row ">
@@ -103,12 +89,12 @@ export default function Home() {
                           </Card.Content>
                           <Card.Footer>
                                <div >
-                                <EditTodoModal id={item.id} onUpdated={fetchTodos}  item={item} />
+                                <EditTodoModal id={item.id} item={item} />
                                
-                                <DeleteTodoModal id={item.id} onUpdated={fetchTodos} />
+                                <DeleteTodoModal id={item.id} />
                                 <div className="w-[100px] space-y-3">
 
-                                <Button onClick={() => {router.push(`/TodoDetails/${item.id}`); setPending(true);}} variant="secondary" fullWidth isPending={pending}>
+                                <Button onClick={() => {router.push(`/dtails/${item.id}`); setPending(true);}} variant="secondary" fullWidth isPending={pending}>
                                   {({ isPending }) => (
                                     <>
                                       {isPending ? <Spinner color="current" size="xl" /> : 'Details'}                          

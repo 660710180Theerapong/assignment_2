@@ -5,6 +5,13 @@ export default async function getTodoHandler (req) {
         try{
             const body = await req.json();
             const todo = await getTodoUsecase(body)
+
+            if(todo === undefined){
+                return Response.json(
+                      { success: false, data: "Todo not found." },
+                      { status: 404 }
+                    );
+            }
             return Response.json(
                       { success: true, data: todo },
                       { status: 200 }
@@ -13,7 +20,7 @@ export default async function getTodoHandler (req) {
         } catch(err) {
             console.error("PATCH Error: ", err)
             return Response.json(
-                { success: true, error: err.message },
+                { success: false, error: err.message },
                 { status: 400 }
             )
         }
