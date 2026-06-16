@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Button, Spinner } from "@heroui/react";
 import { createPortal } from "react-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import styles from "@/styles/DeleteTodoModal.module.css"
 
 export default function DeleteModal({id}){
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
-
+    const queryClient = useQueryClient();
 
     const { mutate, 
         isPending, 
@@ -32,6 +32,11 @@ export default function DeleteModal({id}){
 
     onSuccess: () => {
         setIsDeleteOpen(false);
+
+        queryClient.invalidateQueries({
+            queryKey: ["todos"],
+            refetchType: "active",
+            });
     },
 
     onError: (err) => {

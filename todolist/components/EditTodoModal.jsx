@@ -2,13 +2,13 @@
 import { Button, Spinner } from "@heroui/react";
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import styles from "@/styles/EditTodoModal.module.css"
 
 export default function EditTodoModal({id, item}) {
     const [isEditOpen, setIsEditOpen] = useState(false)
-
+    const queryClient = useQueryClient();
     const [todo, setTodo] = useState({ 
         id: id, 
         title: item.title, 
@@ -44,11 +44,13 @@ export default function EditTodoModal({id, item}) {
     },
 
     onSuccess: () => {
-        setIsEditOpen(false);
-
+        
+        setIsEditOpen(false),
+      
         queryClient.invalidateQueries({
         queryKey: ["todos"],
-        });
+        refetchType: "active",
+        })
     },
     });
 
