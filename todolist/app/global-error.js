@@ -9,24 +9,28 @@ export default function GlobalError({ error, unstable_retry }) {
  
     <html>
       <body>
-        <div >
-                <div className="flex min-h-screen items-center justify-center gap-3">
-                    <Label className="text-3xl font-bold text-white text-center">Something went wrong!</Label>
-                </div>
-              
-            <div className="w-[100px] flax space-y-3 ">
-                
+     
+      <div >
+          <div className="flex min-h-screen flex-col items-center justify-center gap-6">
+            
+            <Label className="text-3xl font-bold text-white text-center">
+              Something went wrong!
+            </Label>
+
+            <div className="w-[200px] flex gap-3">
                 <Button onClick={() => unstable_retry()} variant="secondary" fullWidth>
-                    Try again
+                Try again
                 </Button>
-        
+
                 <Button onClick={() => route.back()} variant="secondary" fullWidth>
-                    Return
+                Return
                 </Button>
             </div>
-              
+
         
             </div>
+        </div>
+  
       </body>
     </html>
   )

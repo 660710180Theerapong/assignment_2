@@ -13,8 +13,6 @@ export default function AddTodo() {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const [cancelPending, setCancelPending] = useState(false);
-
   const [todo, setTodo] = useState({
     title: "",
     item: "",
@@ -128,7 +126,7 @@ export default function AddTodo() {
                 )}
               </Button>
               
-              <Button type="button" onClick={()=>{router.push("/"); setCancelPending(true);}} variant="secondary" fullWidth isPending={cancelPending}> 
+              <Button type="button" onClick={()=>{router.push("/"); }} variant="secondary" fullWidth isPending={cancelPending}> 
                 {({ isPending }) => (
                   <>
                     {isPending ? (
