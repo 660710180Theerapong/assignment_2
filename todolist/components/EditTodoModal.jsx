@@ -2,40 +2,59 @@
 import { Button, Spinner } from "@heroui/react";
 import { useState } from "react";
 import { createPortal } from "react-dom";
+import { useMutation } from "@tanstack/react-query";
 
 import styles from "@/styles/EditTodoModal.module.css"
 
-export default function EditTodoModal({id, onUpdated, item}) {
+export default function EditTodoModal({id, item}) {
     const [isEditOpen, setIsEditOpen] = useState(false)
-    const [pending, setPending] = useState(false)
 
-    const [todo, setTodo] = useState({
-        id: id,
-        title: item.title,
-        item: item.item
+    const [todo, setTodo] = useState({ 
+        id: id, 
+        title: item.title, 
+        item: item.item 
     });
-
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setPending(true)
-
-        const res = await fetch(`/api/todo/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(todo)
-        });
-
-        setIsEditOpen(false);
-        onUpdated();
-        
-    };
 
     const handleChange = (e) => { 
         setTodo({ 
             ...todo, 
             [e.target.name]: e.target.value 
-        })
+        }) 
+    };
+
+    const { mutate, 
+        isPending, 
+        error } = useMutation({
+        mutationKey: ["editTodo", id],
+
+        mutationFn: async (updatedTodo) => {
+        const res = await fetch(`/api/todo/${id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedTodo),
+        });
+
+        if (!res.ok) {
+             throw new Error("Failed to update todo");
+        }
+
+        return res.json();
+    },
+
+    onSuccess: () => {
+        setIsEditOpen(false);
+
+        queryClient.invalidateQueries({
+        queryKey: ["todos"],
+        });
+    },
+    });
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        mutate(todo);
     };
 
 
@@ -89,14 +108,13 @@ export default function EditTodoModal({id, onUpdated, item}) {
                 />
 
                 <div className="w-[200px] flex gap-3">
-                    <Button type="submit" fullWidth isPending={pending}>
+                    <Button type="submit" fullWidth isPending={isPending}>
                         {({ isPending }) => (
                             <>
-                                {isPending ? <Spinner color="current" size="xl" /> : 'Save'} 
-                                      
+                            {isPending ? ( <Spinner color="current" size="xl" />) : ( "Save" )}
                             </>
                         )}
-                    </Button>
+                        </Button>
 
                     <Button
                     type="button"

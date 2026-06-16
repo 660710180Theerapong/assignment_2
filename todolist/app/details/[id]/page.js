@@ -2,39 +2,44 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Card,Button, ProgressCircle, Label, Spinner } from "@heroui/react";
+import { Card,Button, Spinner } from "@heroui/react";
+import { useQuery } from "@tanstack/react-query";
 
+import LoadingUI from "@/components/LoadingUI";
 
 export default function TodoDetails() {
     const router = useRouter();
     const { id } = useParams();
     const numericId = Number(id);
-    const [Todo, setTodo] = useState([])
-    const [loading, setLoading] = useState(true)
+
     const [pending, setPending] = useState(false)
   
     const fetchTodo = async () =>{
-        try {
-            setLoading(true)
+      
             const res = await fetch(`/api/todo/${numericId}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({id: numericId})    
             });
-
+            console.log("RES: ", res)
+            if(!res.ok){
+                throw new Error(res.statusText)
+            }
             const data = await res.json();
-            console.log("Data: ",data.data)
-            setTodo(data.data)
-       
-        } catch (err) {
-            console.error("GET Error:", err);
-        }finally{
-            setLoading(false)
-        }}
-  
-      useEffect(() => {
-    fetchTodo()
-  }, [])
+            return data
+        }
+
+
+  const{
+    data: Todo,
+    isLoading,
+    error,
+  }=useQuery({
+    queryKey: ["Todo"],
+    throwOnError: true,
+    queryFn: fetchTodo,
+    
+  })
 
     const handleClick =()=>{
         setPending(true) 
@@ -42,17 +47,9 @@ export default function TodoDetails() {
         
     }
 
-   if (loading) {
+   if (isLoading) {
       return (
-      <div className="flex min-h-screen items-center justify-center gap-3">
-       <ProgressCircle isIndeterminate aria-label="Loading">
-        <ProgressCircle.Track>
-          <ProgressCircle.TrackCircle />
-          <ProgressCircle.FillCircle />
-        </ProgressCircle.Track>
-        </ProgressCircle>
-        <Label className="text-3xl font-bold text-white text-center">Loading...</Label>
-      </div>
+       <LoadingUI/>
     )
     } 
     
@@ -66,15 +63,15 @@ export default function TodoDetails() {
                <Card className="w-full items-stretch">
                     <Card.Header >
                         <Card.Title >
-                            <p className="text-2xl font-bold">💠 {Todo.title}</p> 
+                            <p className="text-2xl font-bold">💠 {Todo.data.title}</p> 
                             <hr/>
                         </Card.Title> 
                     </Card.Header>
                     <Card.Content> 
                         <div className="text-xl">
-                            <p>ID: {Todo.id}</p>
-                            <p>Todo: {Todo.item}</p>
-                            <p>Status: {Todo.status ? '🟢 Done' : '🔴 Not done'}</p>
+                            <p>ID: {Todo.data.id}</p>
+                            <p>Todo: {Todo.data.item}</p>
+                            <p>Status: {Todo.data.status ? '🟢 Done' : '🔴 Not done'}</p>
                         </div>
                         
                     </Card.Content>

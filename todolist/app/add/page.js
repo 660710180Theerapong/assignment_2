@@ -4,51 +4,62 @@ import Head from "next/head";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, Spinner } from "@heroui/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import styles from "@/styles/AddTodo.module.css";
 
+
 export default function AddTodo() {
-  const router = useRouter(); 
-  const [pending, setPending] = useState(false);
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
   const [cancelPending, setCancelPending] = useState(false);
 
   const [todo, setTodo] = useState({
     title: "",
     item: "",
-    status: false
+    status: false,
   });
 
   const handleChange = (e) => {
-        setTodo({
-            ...todo,
-            [e.target.name]: e.target.value
-        });
-    };
+    setTodo({
+      ...todo,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    try {
-      setPending(true)
+  const { mutate, isPending, error } = useMutation({
+    mutationKey: ["todo"],
 
+    mutationFn: async (newTodo) => {
       const res = await fetch("/api/todo", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(todo)
+        body: JSON.stringify(newTodo),
       });
 
-      const data = await res.json();
-      console.log("SUCCESS:", data);
+      if (!res.ok) {
+        throw new Error("Failed to create todo");
+      }
+
+      return res.json();
+    },
+
+    onSuccess: () => {   
+      queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
 
       router.push("/");
-      
-    } catch (err) {
-      console.error("ERROR:", err);
-    } 
-  };
+    },
+  });
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    mutate(todo);
+  }
 
 
   return (
@@ -61,12 +72,17 @@ export default function AddTodo() {
         
         <div className={styles.container}>
         
-          <form onSubmit={handleSubmit} >
-          <div>
+          <form onSubmit={handleSubmit}>
+              <div>
+
             <h1>Add Todo</h1>  
+
            <hr/>
+
             <h2>Title:</h2>
+
             <input 
+
               type="text"
               name="title"
               placeholder="Enter your title"
@@ -79,9 +95,13 @@ export default function AddTodo() {
               onInput={(e) =>
                 e.target.setCustomValidity("")
               }
+
             />
+
             <h2>Todo: </h2>
+
             <textarea
+
               name="item"
               placeholder="Enter your todo"
               onChange={handleChange}
@@ -93,33 +113,39 @@ export default function AddTodo() {
               onInput={(e) =>
                 e.target.setCustomValidity("")
               }
+
             />
-          </div>
-          <hr/>
-          <div className="w-[200px] flex gap-3">
-            <Button type="submit" fullWidth isPending={pending}>
-              {({ isPending }) => (
-                <>
-                  {isPending ? <Spinner color="current" size="xl" /> : 'Add'} 
-                  
-                </>
-              )}
-            </Button>
-
-            
-            <Button type="button" onClick={()=>{router.push("/"); setCancelPending(true);}} variant="secondary" fullWidth isPending={cancelPending}>
-              {({ isPending }) => (
-                <>
-                  {isPending ? <Spinner color="current" size="xl" /> : 'Cancel'} 
-                  
-                </>
-              )}
-            </Button>
 
           </div>
+
+          <div className="w-[200px] flex gap-3"> 
+              <Button type="submit" fullWidth isPending={isPending}>
+                {({ isPending }) => (
+                  <>
+                    {isPending ? (
+                      <Spinner color="current" size="xl" /> ) : ( "Add" )}
+                  </>
+                )}
+              </Button>
+              
+              <Button type="button" onClick={()=>{router.push("/"); setCancelPending(true);}} variant="secondary" fullWidth isPending={cancelPending}> 
+                {({ isPending }) => (
+                  <>
+                    {isPending ? (
+                      <Spinner color="current" size="xl" /> ) : ( "Cancel" )}
+                  </>
+                )}
+              </Button>
+          </div>
+
           
-          
-        </form>
+
+      {error && (
+        <p className="text-red-500">
+          {error.message}
+        </p>
+      )}
+    </form>
 
         </div>
         
