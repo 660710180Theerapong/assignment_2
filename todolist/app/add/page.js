@@ -126,7 +126,7 @@ export default function AddTodo() {
                 )}
               </Button>
               
-              <Button type="button" onClick={()=>{router.push("/"); }} variant="secondary" fullWidth isPending={cancelPending}> 
+              <Button type="button" onClick={()=>{router.push("/"); }} variant="secondary" fullWidth isPending={isPending}> 
                 {({ isPending }) => (
                   <>
                     {isPending ? (
