@@ -3,7 +3,7 @@ import pool from "@/database/db";
 export const getTodo = async(data) =>{
     const {id} = data
     const query =`
-            SELECT id, title, item, status
+            SELECT id, title, item, status, created_at, updated_at
             FROM todoList
             WHERE id = $1
         `

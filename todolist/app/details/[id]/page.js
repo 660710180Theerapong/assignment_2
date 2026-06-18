@@ -1,6 +1,7 @@
 "use client"
 import Head from "next/head";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import {CircleFill} from '@gravity-ui/icons';
 import { useParams, useRouter } from "next/navigation";
 import { Card,Button, Spinner } from "@heroui/react";
 import { useQuery } from "@tanstack/react-query";
@@ -28,7 +29,14 @@ export default function TodoDetails() {
             const data = await res.json();
             return data
         }
-
+        const formatDate = (dateString) => {
+            return new Date(dateString).toLocaleDateString("en-GB", {
+              timeZone: "Asia/Bangkok",
+              day: "2-digit",
+              month: "short",
+              year: "numeric",
+            });
+          };
 
   const{
     data: Todo,
@@ -63,21 +71,32 @@ export default function TodoDetails() {
                <Card className="w-full items-stretch">
                     <Card.Header >
                         <Card.Title >
-                            <p className="text-2xl font-bold">💠 {Todo.data.title}</p> 
+                            <p className="text-[32px] font-bold">💠 {Todo.data.title}</p> 
                             <hr/>
                         </Card.Title> 
                     </Card.Header>
                     <Card.Content> 
-                        <div className="text-xl">
+                        <div className="text-[14px]">
                             <p>ID: {Todo.data.id}</p>
-                            <p>Todo: {Todo.data.item}</p>
-                            <p>Status: {Todo.data.status ? '🟢 Done' : '🔴 Not done'}</p>
+                            <p>Description: {Todo.data.item}</p>     
+                            <p className={`font-bold flex items-center gap-2 ${Todo.data.status ? 'text-[#22C55E]' : 'text-[#FF383C]'}`}>
+                                  Status: <CircleFill className="w-10 h-10"/>
+                                  <span>{Todo.data.status ? 'DONE' : 'NOT DONE'}</span>
+                                </p>        
+                 
+                        </div><hr/>
+
+                        <div className="text-[14px]">
+                            
+                            <p>Created at: {formatDate(Todo.data.created_at)}</p>
+                            <p>Updated at: {formatDate(Todo.data.updated_at)}</p>
+                            
                         </div>
                         
                     </Card.Content>
                     <Card.Footer>
-                        <div className="w-[100px] space-y-3">
-                            <Button onClick={handleClick} variant="secondary" fullWidth isPending={pending}>
+                        <div className="w-[300px] space-y-3">
+                            <Button className="w-44" onClick={handleClick} variant="secondary" fullWidth isPending={pending}>
                                 {({ isPending }) => (
                                     <>
                                         {isPending ? <Spinner color="current" size="xl" /> : 'Back'}                          

@@ -1,5 +1,6 @@
 "use client";
 import { Button, Spinner } from "@heroui/react";
+import {PencilToSquare} from '@gravity-ui/icons';
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -21,6 +22,15 @@ export default function EditTodoModal({id, item}) {
             [e.target.name]: e.target.value 
         }) 
     };
+
+    const formatDate = (dateString) => {
+        return new Date(dateString).toLocaleDateString("en-GB", {
+          timeZone: "Asia/Bangkok",
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        });
+      };
 
     const { mutate, 
         isPending, 
@@ -62,21 +72,25 @@ export default function EditTodoModal({id, item}) {
 
     return (      
 
-        <div className="w-[100px] space-y-3">
+        <div className=" w-44 space-y-3">
             <Button  onClick={() => {
+                
                 setIsEditOpen(true);
-                }} fullWidth>
-                    Edit
+                }} fullWidth >
+                    <PencilToSquare className="w-10 h-10"/> Edit
                 </Button>
 
                     {isEditOpen &&
         createPortal(
             <div className={styles.modalOverlay}>
-            <div className={styles.modal}>
-                <h1>Edit Todo</h1>
+            <div className={styles.modal} >
+                <p className="text-[32px] font-bold">Edit Todo</p>
 
-                <form onSubmit={handleSubmit}>
-                <h2>Title:</h2>
+                <form onSubmit={handleSubmit} className="text-[14px]">
+
+                <h2>Todo: #{item.id}</h2><hr/>
+
+                <h2>Title<span className="text-[#FF383C]">*</span></h2>
                 <input
                     type="text"
                     name="title"
@@ -93,7 +107,7 @@ export default function EditTodoModal({id, item}) {
                     }
                 />
 
-                <h2>Todo:</h2>
+                <h2>Description<span className="text-[#FF383C]">*</span></h2>
                 <textarea
                     name="item"
                     defaultValue={item.item}
@@ -109,8 +123,16 @@ export default function EditTodoModal({id, item}) {
                     }
                 />
 
-                <div className="w-[200px] flex gap-3">
-                    <Button type="submit" fullWidth isPending={isPending}>
+                    <h2>Last Updated: {formatDate(item.updated_at)}</h2><hr/>
+
+                <div className="w-[300px] flex gap-3">
+                    <Button className="w-44" type="button" variant="secondary" fullWidth
+                    onClick={() =>{ setIsEditOpen(false);}}
+                    >
+                    Cancel
+                    </Button>
+
+                    <Button className="w-44" type="submit" fullWidth isPending={isPending}>
                         {({ isPending }) => (
                             <>
                             {isPending ? ( <Spinner color="current" size="xl" />) : ( "Save" )}
@@ -118,17 +140,7 @@ export default function EditTodoModal({id, item}) {
                         )}
                         </Button>
 
-                    <Button
-                    type="button"
-                    variant="secondary"
-                    fullWidth
-                    onClick={() =>{ 
-                        setIsEditOpen(false);
-                        }
-                    }
-                    >
-                    Cancel
-                    </Button>
+                    
                 </div>
                 </form>
             </div>

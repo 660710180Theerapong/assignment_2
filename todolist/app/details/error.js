@@ -13,18 +13,20 @@ export default function Error({ error, unstable_retry }) {
     <div >
         <div className="flex min-h-screen flex-col items-center justify-center gap-6">
             
-            <Label className="text-3xl font-bold text-white text-center">
+            <Label className="text-3xl font-bold text-[#000000] text-center">
                 Something went wrong in todo details!
             </Label>
 
-            <div className="w-[200px] flex gap-3">
-                <Button onClick={() => unstable_retry()} variant="secondary" fullWidth>
+            <div className="w-[300px] flex gap-3">
+                <Button className="w-44" onClick={() => route.push("/")} variant="secondary" fullWidth>
+                Return
+                </Button>
+
+                <Button className="w-44" onClick={() => unstable_retry()} fullWidth>
                 Try again
                 </Button>
 
-                <Button onClick={() => route.back()} variant="secondary" fullWidth>
-                Return
-                </Button>
+                
             </div>
 
         
