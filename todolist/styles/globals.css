@@ -2,14 +2,14 @@
 @import "@heroui/styles"; 
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FDF6ED;
+  --foreground: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #262429;
-    --foreground: #24201d;
+    --background: #DDDDDD;
+    --foreground: #000000;
   }
 }
 

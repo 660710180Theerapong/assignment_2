@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Button, Spinner } from "@heroui/react";
+import { TrashBin } from "@gravity-ui/icons";
+
 import { createPortal } from "react-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import styles from "@/styles/DeleteTodoModal.module.css"
 
-export default function DeleteModal({id}){
+export default function DeleteModal({id, title}){
     const [isDeleteOpen, setIsDeleteOpen] = useState(false)
     const queryClient = useQueryClient();
 
@@ -47,12 +49,12 @@ export default function DeleteModal({id}){
  
 
 return(
-    <div className="w-[100px] space-y-3 pt-5">
+    <div className=" w-44  space-y-3 pt-10">
 
         <Button onClick={() => {
             setIsDeleteOpen(true);
-            }} variant="danger" fullWidth>
-                Delete
+            }} isIconOnly variant="danger" fullWidth>
+                <TrashBin className="w-10 h-10"/> Delete
         </Button>
         
         {isDeleteOpen && createPortal(
@@ -60,12 +62,21 @@ return(
                 <div className={styles.modal}>
 
                 <div className="justify-items-center">
-                <h3>⚠️ Delete Todo Alert</h3>
-                <p>Are you sure you want to delete this todo?</p>
+                <p className="text-[32px] font-bold">⚠️ Delete Todo Alert</p>
+                <div className="text-[14px] justify-items-center">
+                    <p>Are you sure you want to delete <span className="font-bold text-[#FF383C]">"{title}"</span>?</p>
 
-                <div className="w-[200px] flex gap-3">
-
-                    <Button onClick={() => mutate()} variant="danger" fullWidth isPending={isPending}>
+                    <p>This action cannot be undone.</p>
+                </div>
+                
+                <div className="w-[300px] flex gap-3">
+                    <Button className="w-44 " type="button" variant="secondary" fullWidth
+                    onClick={() =>{ setIsDeleteOpen(false);}}
+                    >
+                    Cancel
+                    </Button>
+                    
+                    <Button className="w-44" onClick={() => mutate()} variant="danger" fullWidth isPending={isPending}>
                     {({ isPending }) => (
                         <>                        
                         {isPending ? <Spinner color="current" size="xl" /> : 'Delete'}                        
@@ -73,16 +84,7 @@ return(
                     )}
                     </Button>
 
-                    <Button
-                    onClick={() => {
-                        setIsDeleteOpen(false);
-                
-                
-                    }} variant="secondary" fullWidth
-            
-                    >
-                    Cancel
-                    </Button>
+             
                 </div>
                     
                 </div>

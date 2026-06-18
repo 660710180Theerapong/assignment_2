@@ -58,8 +58,8 @@
 }
 
 .modal {
-  background: white;
-  color: black;
+  background: #DDDDDD;
+  color: #000000;
   padding: 50px;
   border-radius: 10px;
 }

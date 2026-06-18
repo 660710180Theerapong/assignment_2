@@ -12,7 +12,7 @@ export default function LoadingUI(){
             <ProgressCircle.FillCircle />
           </ProgressCircle.Track>
           </ProgressCircle>
-          <Label className="text-3xl font-bold text-white text-center">Loading...</Label>
+          <Label className="text-3xl font-bold text-[#000000] text-center">Loading...</Label>
         </div>
       );
 }
